@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para Joselyn 💜</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:black;
+overflow:hidden;
+color:white;
+}
+
+.section{
+position:absolute;
+width:100%;
+height:100vh;
+background-size:cover;
+background-position:center;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:40px;
+opacity:0;
+visibility:hidden;
+transition:opacity 1.5s ease, transform 1.5s ease;
+transform:scale(1.05);
+}
+
+.section.active{
+opacity:1;
+visibility:visible;
+transform:scale(1);
+}
+
+.overlay{
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(60,0,90,0.6);
+backdrop-filter:blur(6px);
+}
+
+.content{
+position:relative;
+z-index:3;
+max-width:900px;
+width:100%;
+}
+
+button{
+margin-top:30px;
+padding:15px 40px;
+border:none;
+border-radius:40px;
+font-size:18px;
+cursor:pointer;
+background:linear-gradient(45deg,#b388ff,#ce93d8);
+color:white;
+box-shadow:0 0 25px rgba(255,255,255,0.8);
+transition:0.4s;
+}
+
+button:hover{
+transform:scale(1.08);
+}
+
+.glow{
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{text-shadow:0 0 10px #fff;}
+50%{text-shadow:0 0 35px #d6a8ff;}
+100%{text-shadow:0 0 10px #fff;}
+}
+
+#reloj{
+font-size:45px;
+margin-top:20px;
+text-shadow:0 0 20px #d6a8ff;
+white-space:pre-line;
+}
+
+#subtituloCancion{
+font-size:30px;
+opacity:1;
+transition:opacity 0.6s ease;
+text-shadow:0 0 20px #fff;
+min-height:60px;
+}
+
+.nombreFinal{
+font-size:90px;
+letter-spacing:15px;
+opacity:0;
+transform:scale(0.8);
+transition:all 3s ease;
+text-shadow:0 0 40px #d6a8ff;
+margin-top:20px;
+}
+
+.nombreFinal.mostrar{
+opacity:1;
+transform:scale(1.1);
+}
+
+canvas{
+position:absolute;
+top:0;
+left:0;
+z-index:1;
+}
+</style>
+</head>
+<body>
+
+<!-- INICIO -->
+<div id="inicioApp" class="section active" style="background-image:url('https://raw.githubusercontent.com/jesus-1234/declaracion/main/inicio.jpg')">
+<div class="overlay"></div>
+<div class="content">
+<h1>Para alguien especial que esta en mi mente y corazon 💜</h1>
+<button onclick="comenzar()">Comenzar</button>
+</div>
+</div>
+
+<!-- TEXTO -->
+<div id="escena1" class="section" style="background-image:url('https://raw.githubusercontent.com/jesus-1234/declaracion/main/inicio.jpg')">
+<div class="overlay"></div>
+<div class="content">
+<h1 id="textoPrincipal"></h1>
+</div>
+</div>
+
+<!-- CUMPLEAÑOS -->
+<div id="escena2" class="section" style="background-image:url('https://raw.githubusercontent.com/jesus-1234/declaracion/main/inicio.jpg')">
+<div class="overlay"></div>
+<div class="content">
+<h1>💖 Hoy es 19 de febrero 💖</h1>
+<div id="reloj"></div>
+<p style="margin-top:20px;font-size:20px;">
+Disfruta cada segundo de tu día especial 💜
+</p>
+<button onclick="mostrarFinal()">Continuar</button>
+</div>
+</div>
+
+<!-- ESCENA ROMÁNTICA -->
+<div id="final" class="section" style="background-image:url('https://raw.githubusercontent.com/jesus-1234/declaracion/main/noche.jpg')">
+<canvas id="canvasRomantico"></canvas>
+<div class="overlay"></div>
+<div class="content">
+
+<h2 style="margin-bottom:20px;">Joselyn...</h2>
+
+<p class="glow" style="font-size:22px;line-height:1.8;">
+El 19 de febrero no es solo una fecha.<br>
+Es el día en que nació una sonrisa que cambia ambientes,<br>
+una mirada que transmite paz,<br>
+una personalidad que ilumina todo.<br><br>
+
+No se que vaya a suceder pero almenos se que abri al fin mi corazón contigo<br>
+Solo quiero que sepas algo sincero:<br><br>
+
+<b>Que me gustas.<br>
+Me gusta quién eres.<br>
+Y como me haces sentir.</b>
+</p>
+
+<button onclick="irACancion()">🎵 Escuchar Canción</button>
+
+</div>
+</div>
+
+<!-- CANCIÓN -->
+<div id="escenaCancion" class="section" style="background-image:url('cancion.jpg')">
+<canvas id="canvasCancion"></canvas>
+<div class="overlay"></div>
+<div class="content">
+<h2 id="subtituloCancion"></h2>
+
+<div id="fraseFinal" class="nombreFinal" style="font-size:40px;letter-spacing:4px;">
+Eres una chica maravillosa y disfruta tu cumpleaños mi lady…
+</div>
+
+<div id="nombreFinal" class="nombreFinal">
+Joselyn 💜
+</div>
+
+</div>
+</div>
+
+<audio id="musica" src="https://raw.githubusercontent.com/jesus-1234/declaracion/main/happy.mp3"></audio>
+
+<script>
+
+/* CAMBIO ESCENA */
+function cambiar(a,b){
+document.getElementById(a).classList.remove("active");
+setTimeout(()=>{
+document.getElementById(b).classList.add("active");
+},800);
+}
+
+/* TEXTO */
+function comenzar(){
+cambiar("inicioApp","escena1");
+let texto="Hay sucesos inexplicables en la vida del ser humano y este deber uno de muchos...\n\nSiempre tengo presente este sentimiento cada que vuelvo a encontrarte.\n\nCada que lo recuerdo viene a mi mente una sensacion de alegria al verte.";
+escribir("textoPrincipal",texto,35);
+}
+
+function escribir(id,texto,vel){
+let i=0;
+let el=document.getElementById(id);
+el.innerHTML="";
+let inter=setInterval(()=>{
+if(i<texto.length){
+el.innerHTML+=texto.charAt(i);
+i++;
+}else{
+clearInterval(inter);
+setTimeout(()=>cambiar("escena1","escena2"),3000);
+}
+},vel);
+}
+
+/* RELOJ */
+function reloj(){
+function actualizar(){
+let ahora=new Date();
+document.getElementById("reloj").innerHTML=
+mañana.toLocaleTimeString()+" 💜";
+}
+setInterval(actualizar,1000);
+}
+reloj();
+
+/* ESCENA FINAL */
+function mostrarFinal(){
+cambiar("escena2","final");
+animacion("canvasRomantico");
+}
+
+/* IR A CANCIÓN */
+function irACancion(){
+cambiar("final","escenaCancion");
+let audio=document.getElementById("musica");
+audio.currentTime=0;
+audio.play();
+sincronizar(audio);
+animacion("canvasCancion");
+}
+
+/* SUBTÍTULOS */
+function sincronizar(audio){
+let subt=document.getElementById("subtituloCancion");
+
+let frases=[
+{time:1,text:"Me gustas"},
+{time:5,text:"A ti tambien te gustare?"},
+{time:12,text:"Se que suena loco"},
+{time:16,text:"Al final voy a ser feliz"},
+{time:20,text:"Tu tambien solo me miraras a mi"},
+{time:24,text:"Brillaremos y estaremos amandonos"},
+{time:31,text:"¿Alguna vez sientes mi amor?"},
+{time:35,text:"Amaremos"},
+{time:39,text:"Todos solo me miraran y dirán que eres una chica encantadora"},
+{time:47,text:"Soy un chico tan encantador"},
+{time:50,text:"Al final me amarás"},
+{time:54,text:"Me mirarás solo a mi y dirás..."},
+{time:58,text:"Final feliz, al final"},
+{time:63,text:"En las calles donde van y vienen imnumerables cosas"},
+{time:67,text:"Hay alguna chica que carece de algún lugar del paisaje casual"},
+{time:69,text:"El corazón calido que se esconde dentro de ella cobra vida con colores coloridos"},
+{time:75,text:"Y llena sus dos ojos de felicidad"},
+{time:78,text:"Incluso si solo sigo temblando por el viento y el mundo sigue sacudiendome"},
+{time:83,text:"Mi propia vida es inusual"},
+{time:84,text:"Es bueno encontrar mi 'YO' escondido dentro de él, pero..."},
+{time:88,text:"¿Por qué todos no pueden dormir debido a las preocupaciones?"},
+{time:93,text:"¿Alguna vez sientes mi amor?"},
+{time:96,text:"Amaremos"},
+{time:100,text:"Todos solo me miraran y dirán que eres una chica encantadora"},
+{time:108,text:"Soy un chico tan encantador"},
+{time:112,text:"Al final me amarás"},
+{time:115,text:"Me mirarás solo a mi y dirás..."},
+{time:120,text:"Final feliz, al final"},
+{time:125,text:"¿Puedes entenderme?"},
+{time:130,text:"En realidad yo tampoco me conozco"},
+{time:134,text:"¿Me conoces?"},
+{time:138,text:"Tú eres yo"},
+{time:140,text:"¿Alguna vez sientes mi amor?"},
+{time:144,text:"Amaremos"},
+{time:148,text:"Todos solo me miraran y dirán que eres una chica encantadora"},
+{time:156,text:"Soy un chico tan encantador"},
+{time:159,text:"Al final me amarás"},
+{time:163,text:"Me mirarás solo a mi y dirás..."},
+{time:168,text:"Final feliz, al final"}
+];
+
+let indiceActual=-1;
+
+audio.ontimeupdate=function(){
+let t=audio.currentTime;
+
+for(let i=0;i<frases.length;i++){
+if(t>=frases[i].time && (i==frases.length-1 || t<frases[i+1].time)){
+if(indiceActual!==i){
+indiceActual=i;
+subt.style.opacity=0;
+setTimeout(()=>{
+subt.innerHTML=frases[i].text;
+subt.style.opacity=1;
+},200);
+}
+break;
+}
+}
+
+if(t>=170){
+subt.style.opacity=0;
+
+setTimeout(()=>{
+document.getElementById("fraseFinal").classList.add("mostrar");
+},500);
+
+setTimeout(()=>{
+document.getElementById("nombreFinal").classList.add("mostrar");
+},1700);
+}
+}
+}
+
+/* ANIMACIÓN */
+function animacion(canvasId){
+let canvas=document.getElementById(canvasId);
+let ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let corazones=[];
+let estrellas=[];
+
+for(let i=0;i<35;i++){
+corazones.push({
+x:Math.random()*canvas.width,
+y:canvas.height+Math.random()*400,
+size:18+Math.random()*18,
+speed:0.8+Math.random()*0.8
+});
+}
+
+for(let i=0;i<120;i++){
+estrellas.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2
+});
+}
+
+function dibujar(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+estrellas.forEach(e=>{
+ctx.fillStyle="rgba(255,255,255,"+(Math.random()*0.8)+")";
+ctx.beginPath();
+ctx.arc(e.x,e.y,e.r,0,Math.PI*2);
+ctx.fill();
+});
+
+corazones.forEach(c=>{
+c.y-=c.speed;
+ctx.font=c.size+"px Arial";
+ctx.fillStyle="rgba(255,160,255,0.85)";
+ctx.fillText("💜",c.x,c.y);
+if(c.y<0)c.y=canvas.height+50;
+});
+
+requestAnimationFrame(dibujar);
+}
+
+dibujar();
+}
+
+</script>
+</body>
+</html>
